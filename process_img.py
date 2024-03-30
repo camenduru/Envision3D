@@ -75,7 +75,7 @@ class DPT():
             ])
 
         else:  # normal
-            path = '../pretrained_models/omnidata_dpt_normal_v2.ckpt'
+            path = './pretrained_models/omnidata_dpt_normal_v2.ckpt'
             self.model = DPTDepthModel(backbone='vitb_rn50_384', num_channels=3)
             self.aug = transforms.Compose([
                 transforms.Resize((384, 384)),
@@ -114,11 +114,13 @@ class DPT():
 
 
 def preprocess_single_image(img_path, args):
-    out_dir = os.path.dirname(img_path)
-    out_rgba = os.path.join(out_dir, os.path.basename(img_path).split('.')[0] + '_rgba.png')
+    out_dir = os.path.dirname(args.output_path)
+    out_rgba = os.path.join(out_dir, os.path.basename(img_path).split('.')[0] + '.png')
     out_depth = os.path.join(out_dir, os.path.basename(img_path).split('.')[0] + '_depth.png')
-    out_normal = os.path.join(out_dir, os.path.basename(img_path).split('.')[0] + '_normal.png')
+    out_normal = os.path.join(out_dir, 'normal', os.path.basename(img_path).split('.')[0] + '_normal.png')
     out_caption = os.path.join(out_dir, os.path.basename(img_path).split('.')[0] + '_caption.txt')
+    if not os.path.exists(os.path.join(out_dir, 'normal')):
+        os.makedirs(os.path.join(out_dir, 'normal'))
 
     # load image
     print(f'[INFO] loading image {img_path}...')
@@ -244,6 +246,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('path', type=str, help="path to image (png, jpeg, etc.)")
+    parser.add_argument('output_path', type=str, help="path to output images")
     parser.add_argument('--size', default=256, type=int, help="output resolution")
     parser.add_argument('--border_ratio', default=0., type=float, help="output border ratio")
     parser.add_argument('--recenter', action='store_true',
@@ -251,6 +254,9 @@ if __name__ == '__main__':
     parser.add_argument('--do_caption', action='store_true', help="do text captioning")
 
     opt = parser.parse_args()
+
+    if not os.path.exists(opt.output_path):
+        os.makedirs(opt.output_path)
 
     if os.path.isdir(opt.path):
         img_list = sorted(os.path.join(root, fname) for root, _dirs, files in os.walk(opt.path) for fname in files)

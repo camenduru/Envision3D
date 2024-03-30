@@ -4,10 +4,9 @@ seed: 42
 
 dataset:
   name: ortho
-  root_dir: /data/aigc/pyt/envision3d/pic_outputs/s1_val_out
-  s2_root_dir: /data/aigc/pyt/envision3d/pic_outputs/s2_val_out
-#  root_dir: /data/aigc/pyt/envision3d/gso_outputs_all/s1_val_out
-#  s2_root_dir: /data/aigc/pyt/envision3d/gso_outputs_all/s2_val_out
+  root_dir: ../img_outputs/s1_val_out
+  s2_root_dir: ../img_outputs/s2_val_out
+
   cam_pose_dir: ./datasets/camera_poses_w2c_gl
   scene: scene_name
   imSize: [1024, 1024]  # should use larger res, otherwise the exported mesh has wrong colors
@@ -23,7 +22,7 @@ dataset:
                   0.3, 0.3, 0.3, 0.3,    #24-27
                   0.8, 0.2, 0.2, 0.2, ]   #28-31
 
-periods: [(500, 1000),(1500, 2000),(2500, 3000)]
+periods: [(500, 1000),(1500, 2000),(2500, 3000)] # change setting in the system file
 
 model:
   name: neus
@@ -146,7 +145,7 @@ export:
   ortho_scale: 1.35   #modify
 
 trainer:
-  max_steps: 3000
+  max_steps: 5000
   log_every_n_steps: 100
   num_sanity_val_steps: 0
   val_check_interval: 10000

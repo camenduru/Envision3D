@@ -21,7 +21,6 @@ from diffusers.models import AutoencoderKLTemporalDecoder #, UNetSpatioTemporalC
 from diffusers.schedulers import EulerDiscreteScheduler
 
 from transformers.utils import ContextManagers
-from data.geodata import NineViewsDataset
 from data.single_image import SingleImageNormalDataset
 # from data.thriple_image import EightAnchorImageDataset
 # from models.unet_mv2d_condition import UNetMV2DConditionModel
